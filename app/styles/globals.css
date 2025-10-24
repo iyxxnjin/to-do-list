@@ -1,0 +1,55 @@
+@import "tailwindcss";
+@import url('https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css');
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme {
+  /* colors */
+  /* slate */
+  --color-slate-900: #0F172A;
+  --color-slate-800: #1E293B;
+  --color-slate-500: #64748B;
+  --color-slate-400: #94A3B8;
+  --color-slate-300: #CBD5E1;
+  --color-slate-200: #E2E8F0;
+  --color-slate-100: #F1F5F9;
+
+  /* violet */
+  --color-violet-600: #7C3AED;
+  --color-violet-100: #EDE9FE;
+
+  /* rose/lime */
+  --color-rose-500: #F43F5E;
+  --color-lime-300: #BEF264;
+
+  /* amber */
+  --color-amber-800: #92400E;
+
+  /* font */
+   --font-sans: "NanumSquare", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+
+  /* 폰트 크기 */
+  --text-xl: 20px;
+  --text-lg: 18px;
+  --text-base: 16px;
+
+  /* 폰트 굵기 */
+  --font-weight-bold: 700;
+  --font-weight-regular: 400;
+}
+
+/* 다크 모드 설정 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-regular);
+}
