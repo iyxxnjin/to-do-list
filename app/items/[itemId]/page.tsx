@@ -152,12 +152,12 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         <button
         onClick={handleToggleComplete}
         className={`absolute left-4 w-6 h-6 flex items-center justify-center rounded-full border-2 ${
-            todo.isCompleted
+            todo?.isCompleted
             ? "bg-[var(--color-violet-600)] border-[var(--color-violet-600)]"
             : "bg-white border-[var(--color-slate-900)]"
         }`}
         >
-        {todo.isCompleted && (
+        {todo?.isCompleted && (
             <Image src={CheckIcon} alt="체크" width={12} height={12} className="invert" />
         )}
         </button>
@@ -165,10 +165,10 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         {/* 왼쪽 버튼 여백 확보 */}
         <input
         type="text"
-        value={todo.name}
-        onChange={(e) => setTodo({ ...todo, name: e.target.value })}
+        value={todo?.name}
+        onChange={(e) => setTodo((prev) => (prev ? {...prev, name: e.target.value } : prev)) }
         className={`w-full rounded-full border-2 border-[var(--color-slate-900)] px-12 py-2 text-center ${
-            todo.isCompleted ? "bg-[var(--color-violet-100)] line-through" : "bg-white"
+            todo?.isCompleted ? "bg-[var(--color-violet-100)] line-through" : "bg-white"
         }`}
         />
     </div>
@@ -227,8 +227,10 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     {/* 투명 textarea를 이미지 위에 올림 */}
     <textarea
         placeholder="메모를 입력하세요"
-        value={todo.memo || ""}
-        onChange={(e) => setTodo({ ...todo, memo: e.target.value })}
+        value={todo?.memo || ""}
+        onChange={(e) =>
+            setTodo((prev) => (prev ? { ...prev, name: e.target.value } : prev))
+        }
         className="absolute top-10 left-4 w-[90%] h-[80%] bg-transparent text-[var(--color-slate-900)] outline-none resize-none"
     />
     </div>
