@@ -1,3 +1,5 @@
+import { Update } from "next/dist/build/swc/types"
+
 // app/lib/itemApi.ts
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL 
 const TENANT_ID = process.env.NEXT_PUBLIC_TENANT_ID
@@ -28,7 +30,14 @@ export async function getItem(itemId: number) {
 }
 
 // 수정 (PATCH)
-export async function updateItem(itemId: number, data: any) {
+interface UpdateData {
+  name?: string
+  memo?: string
+  isCompleted?: boolean
+  imageUrl?: string
+}
+
+export async function updateItem(itemId: number, data: UpdateData) {
   const res = await fetch(`${BASE_URL}/${TENANT_ID}/items/${itemId}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },

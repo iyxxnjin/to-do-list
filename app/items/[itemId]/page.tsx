@@ -49,13 +49,13 @@ export default function ItemDetailPage() {
     }
 
     if (itemId) fetchTodo()
-  }, [itemId])
+  }, [itemId, BASE_URL, TENANT_ID])
 
     // 체크버튼 클릭 시 상태 변경
     const handleToggleComplete = async () => {
     if (!todo) return;
     try {
-        const updated = await updateItem(todo.id, { isCompleted: !todo.isCompleted });
+        await updateItem(todo.id, { isCompleted: !todo.isCompleted });
         setTodo((prev) => (prev ? { ...prev, isCompleted: !prev.isCompleted } : prev))
     } catch (error) {
         console.error("상태 변경 실패:", error);
@@ -101,7 +101,7 @@ export default function ItemDetailPage() {
     }
   }
 
-  // 이미지 업로드
+  /* 이미지 업로드 */
 const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
   const file = e.target.files?.[0]
   if (!file) return
@@ -143,7 +143,7 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
   }
 }
   // 로딩 중 처리
-  if (!todo) return <div className="text-center mt-20">로딩 중...</div>
+  if(loading) return <div className="text-center mt-20">로딩 중...</div>
 
   return (
      <div className="flex flex-col items-center gap-6 mt-8">
