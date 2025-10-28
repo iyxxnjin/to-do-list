@@ -137,6 +137,16 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
 
     // 4. 업로드 성공 시 이미지 URL 저장
     setTodo((prev) => (prev ? { ...prev, imageUrl: data.url } : prev))
+     // ✅ 2️⃣ 서버에 즉시 PATCH 요청 (이미지 URL 반영)
+    if (itemId) {
+      await fetch(`${BASE_URL}/${TENANT_ID}/items/${itemId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ imageUrl: data.url }),
+      })
+    }
+
+    console.log("✅ 업로드 및 서버 반영 성공:", data.url)
   } catch (err) {
     console.error(err)
     alert("이미지 업로드 중 오류가 발생했습니다.")
@@ -175,43 +185,44 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
       <div className="flex gap-6 w-full maax-w-4x1">
         {/* 왼쪽 - 이미지 업로드 */}
        <div className="w-1/2 flex flex-col items-center justify-center border-2 border-dashed border-[var(--color-slate-300)] rounded-xl bg-[var(--color-slate-100)] h-72 relative">
-        {image ? (
+        {image || todo?.imageUrl ? (
             <Image
-            src={image}
-            alt="업로드된 이미지"
-            fill
-            className="object-cover rounded-xl"
+                src={image || todo?.imageUrl!}
+                alt="업로드된 이미지"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-cover rounded-xl"
             />
         ) : (
-     <>
-      {/* 이미지 클릭 시 파일 업로드 */}
-      <label
-        htmlFor="imageUpload"
-        className="flex flex-col items-center justify-center cursor-pointer"
-      >
-        <Image
-          src={UploadIcon}
-          alt="이미지 추가"
-          width={80}
-          height={80}
-          className="opacity-70 hover:opacity-100 transition-opacity"
-        />
-        <span className="mt-2 text-sm text-[var(--color-slate-500)]">
-          이미지 추가하기
-        </span>
+            <>
+        {/* 이미지 클릭 시 파일 업로드 */}
+        <label
+            htmlFor="imageUpload"
+            className="flex flex-col items-center justify-center cursor-pointer"
+        >
+            <Image
+            src={UploadIcon}
+            alt="이미지 추가"
+            width={80}
+            height={80}
+            className="opacity-70 hover:opacity-100 transition-opacity"
+            />
+            <span className="mt-2 text-sm text-[var(--color-slate-500)]">
+            이미지 추가하기
+            </span>
 
-        {/* ✅ 실제 파일 input (숨김) */}
-        <input
-          id="imageUpload"
-          type="file"
-          accept="image/*"
-          onChange={handleImageUpload}
-          className="hidden"
-        />
-      </label>
-    </>
-  )}
-</div>
+            {/* ✅ 실제 파일 input (숨김) */}
+            <input
+                id="imageUpload"
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="hidden"
+            />
+        </label>
+        </>
+    )}
+    </div>
 
      {/* 오른쪽 - 메모 입력 */}
     <div
@@ -229,7 +240,7 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         placeholder="메모를 입력하세요"
         value={todo?.memo || ""}
         onChange={(e) =>
-            setTodo((prev) => (prev ? { ...prev, name: e.target.value } : prev))
+            setTodo((prev) => (prev ? { ...prev, memo: e.target.value } : prev))
         }
         className="absolute top-10 left-4 w-[90%] h-[80%] bg-transparent text-[var(--color-slate-900)] outline-none resize-none"
     />
