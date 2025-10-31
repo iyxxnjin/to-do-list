@@ -74,7 +74,7 @@ export default function ItemDetailPage() {
           name: todo.name,
           memo: todo.memo,
           isCompleted: todo.isCompleted,
-          imageUrl: todo.imageUrl,
+          //imageUrl: todo.imageUrl,
         }),
       })
 
@@ -187,7 +187,7 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
        <div className="w-1/2 flex flex-col items-center justify-center border-2 border-dashed border-[var(--color-slate-300)] rounded-xl bg-[var(--color-slate-100)] h-72 relative">
         {image || todo?.imageUrl ? (
             <Image
-                src={image || todo?.imageUrl!}
+                src={image || todo?.imageUrl! || ""}
                 alt="업로드된 이미지"
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -228,7 +228,7 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     <div
         className="w-1/2 relative border-2 border-[var(--color-slate-300)] rounded-xl p-4"
         style={{
-            backgroundImage: "url('/img/memo.png')", // 배경 이미지 경로
+            backgroundImage: "url('/memo.png')", // 배경 이미지 경로
             backgroundSize: "cover",
             backgroundPosition: "center",
         }}
