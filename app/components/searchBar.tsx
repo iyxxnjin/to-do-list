@@ -1,4 +1,3 @@
-// components/SearchBar.tsx
 import Button from "../ui/buttons/button"
 
 interface SearchBarProps {
@@ -12,26 +11,47 @@ export default function SearchBar({
   placeholder = "할 일을 입력해주세요!",
   value,
   onChange,
-  onAdd
+  onAdd,
 }: SearchBarProps) {
-    // 엔터 키 처리 함수
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter" && onAdd && !e.nativeEvent.isComposing) {
-            e.preventDefault()
-            onAdd()
-        }
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && onAdd && !e.nativeEvent.isComposing) {
+      e.preventDefault()
+      onAdd()
     }
+  }
+
   return (
-    <div className="flex items-center gap-3 w-full max-w-xl">
+    <div
+      className="
+        flex flex-col sm:flex-row items-center justify-center gap-3
+        w-full max-w-6xl px-4
+      "
+    >
       <input
-        type="text" placeholder={placeholder} value={value} onChange={onChange} 
-        onKeyDown={handleKeyDown} // 엔터 키 처리
-        className="flex-1 rounded-full border-2 border-[var(--color-slate-900)] px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--color-violet-600)]"
+        type="text"
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        onKeyDown={handleKeyDown}
+        className="
+          flex-1 w-full sm:w-auto rounded-full border-2 border-[var(--color-slate-900)]
+          px-5 py-3 text-[var(--color-slate-900)]
+          focus:outline-none focus:ring-2 focus:ring-[var(--color-violet-600)]
+          transition-all
+        "
       />
 
-      <Button variant="primary" icon="plus" size="large" onClick={onAdd}>
-        추가하기
-      </Button>
+      <div className="w-full sm:w-auto">
+        <Button
+          variant="primary"
+          icon="plus"
+          size="large"
+          onClick={onAdd}
+
+        >
+          추가하기
+        </Button>
+      </div>
     </div>
   )
 }

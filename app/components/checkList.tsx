@@ -33,19 +33,20 @@ export default function CheckList({
 
   return (
     <div
-      className={`flex items-center justify-between w-full rounded-full px-4 py-2 border-2 transition-all cursor-pointer
-        ${
-          done
-            ? "bg-[var(--color-violet-100)] border-[var(--color-violet-600)]"
-            : "bg-white border-[var(--color-slate-900)]"
-        }`}
+        className={`
+        flex items-center gap-3 w-full rounded-full px-4 py-3
+        border-2 cursor-pointer transition-all
+        ${done
+          ? "bg-[var(--color-violet-100)] border-[var(--color-violet-600)]"
+          : "bg-white border-[var(--color-slate-900)]"}
+      `}
         onClick={handleItemClick}
     >
       <div className="flex items-center gap-2">
         {/* 체크버튼 */}
         <div
           onClick={handleToggleClick} 
-          className={`w-5 h-5 flex items-center justify-center rounded-full border-2 transition-all ${
+          className={`shrink-0 w-6 h-6 flex items-center justify-center rounded-full border-2 transition-all ${
             done
               ? "bg-[var(--color-violet-600)] border-[var(--color-violet-600)]"
               : "bg-white border-[var(--color-slate-900)]"

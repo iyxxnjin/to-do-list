@@ -5,6 +5,9 @@ import { createItem, getItems, updateItem } from "@/lib/api"
 import CheckList from "./checkList"
 import SearchBar from "./searchBar"
 import EmptyList from "./emptyList"
+import Image from "next/image"
+import TagTodo from "@/ui/images/tag/tag-todo.png"
+import TagDone from "@/ui/images/tag/tag-done.png"
 
 interface TodoItem {
   id: number
@@ -16,7 +19,6 @@ export default function TodoList() {
   const [todos, setTodos] = useState<TodoItem[]>([])
   const [input, setInput] = useState("")
 
-  // 페이지 진입 시 목록 조회
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -29,40 +31,26 @@ export default function TodoList() {
     fetchData()
   }, [])
 
-  // 할 일 추가
   const addTodo = async () => {
     if (!input.trim()) return
 
     try {
       const newItem = await createItem(input)
-      setTodos((prev) => [
-        ...prev,
-        {
-          id: newItem.id,
-          name: newItem.name,
-          isCompleted: newItem.isCompleted,
-        },
-      ])
+      setTodos((prev) => [...prev, newItem])
       setInput("")
     } catch (error) {
       console.error(error)
     }
   }
 
-  // 할 일 토글
   const toggleTodo = async (id: number) => {
     setTodos((prev) =>
       prev.map((todo) =>
-        todo.id === id
-          ? { ...todo, isCompleted: !todo.isCompleted }
-          : todo
+        todo.id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo
       )
     )
-
-    // 서버에도 반영
     const targetTodo = todos.find((t) => t.id === id)
     if (!targetTodo) return
-
     try {
       await updateItem(id, { isCompleted: !targetTodo.isCompleted })
     } catch (err) {
@@ -74,26 +62,25 @@ export default function TodoList() {
   const doneList = todos.filter((t) => t.isCompleted)
 
   return (
-    <div className="flex flex-col items-center gap-8">
+    <div className="flex flex-col items-center gap-8 w-full px-4 sm:px-6 lg:px-8">
       <SearchBar
         value={input}
         onChange={(e) => setInput(e.target.value)}
         onAdd={addTodo}
       />
 
-      <div className="grid grid-cols-2 gap-6 w-full max-w-4xl">
+      {/* TODO / DONE 영역 */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-6xl">
         {/* TO DO */}
-        <div>
-          <div className="mb-2">
-            <span className="px-4 py-1 rounded-full bg-[var(--color-lime-300)] font-bold text-[var(--color-slate-900)]">
-              TO DO
-            </span>
+        <div className="w-full">
+          <div className="mb-4 flex justify-start">
+            <Image src={TagTodo} alt="TO DO 태그" width={100} height={30} className="object-contain" />
           </div>
 
           {todoList.length === 0 ? (
-            <EmptyList showTodoEmpty /> // To Do 비었을 때만 표시
+            <EmptyList showTodoEmpty />
           ) : (
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-4 w-full">
               {todoList.map((todo) => (
                 <CheckList
                   key={todo.id}
@@ -107,18 +94,16 @@ export default function TodoList() {
           )}
         </div>
 
-        {/* DONE 구역 */}
-        <div>
-          <div className="mb-2">
-            <span className="px-4 py-1 rounded-full bg-[var(--color-amber-800)] text-white font-bold">
-              DONE
-            </span>
+        {/* DONE */}
+        <div className="w-full">
+          <div className="mb-4 flex justify-start">
+            <Image src={TagDone} alt="DONE 태그" width={100} height={30} className="object-contain" />
           </div>
 
           {doneList.length === 0 ? (
-            <EmptyList showDoneEmpty /> // Done 비었을 때만 표시
+            <EmptyList showDoneEmpty />
           ) : (
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-4 w-full">
               {doneList.map((todo) => (
                 <CheckList
                   key={todo.id}
